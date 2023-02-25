@@ -18,6 +18,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveSubsystem extends SubsystemBase {
   // Robot swerve modules
+  // 4765: Updated to our Port config:
+  // one tunring enc
+  // no separate address for driving encoder
+  // magnet offset for each turning encoder
+  // label for so shuffleboard can show each module separately
   private final SwerveModule m_frontLeft = new SwerveModule(
       DriveConstants.kFrontLeftDriveMotorPort,
       DriveConstants.kFrontLeftTurningMotorPort,
@@ -55,7 +60,11 @@ public class DriveSubsystem extends SubsystemBase {
       "RR");
 
   // The gyro sensor
+
+  // 4765 TODO: This currently throws an error at runtime. Gyro broken? Use NavX instead?
   private final Gyro m_gyro = new ADXRS450_Gyro();
+
+  // 4765: Commented out since not using odometry yet
 
   // // Odometry class for tracking robot pose
   // SwerveDriveOdometry m_odometry =
@@ -69,12 +78,20 @@ public class DriveSubsystem extends SubsystemBase {
   // m_rearRight.getPosition()
   // });
 
+  // 4765: Added class variable for each deadband
+  private static final double xSpeedDeadband = DriveConstants.kXSpeedDeadband;
+  private static final double ySpeedDeadband = DriveConstants.kYSpeedDeadband;
+  private static final double rotDeadband = DriveConstants.kRotDeadband;
+
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
   }
 
   @Override
   public void periodic() {
+
+    // 4765: Commented out since not using odometry yet
+
     // Update the odometry in the periodic block
     // m_odometry.update(
     // m_gyro.getRotation2d(),
@@ -86,6 +103,8 @@ public class DriveSubsystem extends SubsystemBase {
     // });
   }
 
+  // 4765: Commented out since not using odometry yet
+
   /**
    * Returns the currently-estimated pose of the robot.
    *
@@ -94,6 +113,8 @@ public class DriveSubsystem extends SubsystemBase {
   // public Pose2d getPose() {
   // return m_odometry.getPoseMeters();
   // }
+
+  // 4765: Commented out since not using odometry yet
 
   /**
    * Resets the odometry to the specified pose.
@@ -122,29 +143,34 @@ public class DriveSubsystem extends SubsystemBase {
    *                      field.
    */
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
+    // 4765: Puts joystick inout data on main shuffleboard for debugging
     SmartDashboard.putNumber("xSpeed", xSpeed);
     SmartDashboard.putNumber("ySpeed", ySpeed);
     SmartDashboard.putNumber("rot", rot);
 
-    boolean outOfDeadband = false;
-    if (Math.abs(xSpeed) > 0.1 ||
-        Math.abs(ySpeed) > 0.1 ||
-        Math.abs(rot) > 0.1) {
-      outOfDeadband = true;
+    // 4765: Added a very (too?) basic deadband strategy
+    if (Math.abs(xSpeed) < xSpeedDeadband) {
+      xSpeed = 0;
+    }
+    if (Math.abs(ySpeed) < ySpeedDeadband) {
+      ySpeed = 0;
+    }
+    if (Math.abs(rot) < rotDeadband) {
+      rot = 0;
     }
 
     var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
-        outOfDeadband ? (fieldRelative
+        fieldRelative
             ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, m_gyro.getRotation2d())
-            : new ChassisSpeeds(xSpeed, ySpeed, rot))
-            : new ChassisSpeeds(0, 0, 0));
+            : new ChassisSpeeds(xSpeed, ySpeed, rot));
+
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
+
     m_frontLeft.setDesiredState(swerveModuleStates[0]);
     m_frontRight.setDesiredState(swerveModuleStates[1]);
     m_rearLeft.setDesiredState(swerveModuleStates[2]);
     m_rearRight.setDesiredState(swerveModuleStates[3]);
-
   }
 
   /**
@@ -161,6 +187,8 @@ public class DriveSubsystem extends SubsystemBase {
     m_rearRight.setDesiredState(desiredStates[3]);
   }
 
+  // 4765: Our encoders do not reset and this seems to be for odometry
+
   /** Resets the drive encoders to currently read a position of 0. */
   // public void resetEncoders() {
   // m_frontLeft.resetEncoders();
@@ -168,6 +196,9 @@ public class DriveSubsystem extends SubsystemBase {
   // m_frontRight.resetEncoders();
   // m_rearRight.resetEncoders();
   // }
+
+  // 4765 TODO: Figure out if we need any of these three functions for field
+  // (driver) centric driving
 
   /** Zeroes the heading of the robot. */
   public void zeroHeading() {
