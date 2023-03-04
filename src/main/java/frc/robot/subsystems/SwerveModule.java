@@ -116,15 +116,16 @@ public class SwerveModule {
     // distance traveled for one rotation of the wheel divided by the encoder
     // resolution.
 
-    // m_driveEncoder.setDistancePerPulse(ModuleConstants.kDriveEncoderDistancePerPulse);
+    //m_driveEncoder.setDistancePerPulse(ModuleConstants.kDriveEncoderDistancePerPulse);
 
     // 4765 TODO: Not sure that any of our motors should be reversed.
     // Set whether drive encoder should be reversed or not
-    m_driveEncoder.setInverted(driveEncoderReversed);
+    //m_driveEncoder.setInverted(driveEncoderReversed);
 
     // 4765: Not sure if we need this, but this is the factor for our modules'
     // dirving gear ratios
-    m_driveEncoder.setVelocityConversionFactor(0.148);
+    //m_driveEncoder.setVelocityConversionFactor(0.000148);
+    m_driveEncoder.setVelocityConversionFactor(0.000148);
 
     // Set the distance (in this case, angle) in radians per pulse for the turning
     // encoder.
@@ -145,6 +146,9 @@ public class SwerveModule {
     // 4765: Establishes Shuffleboard tab for this module and establishes initial
     // values to show
     m_abbreviation = abbreviation;
+
+    System.out.print(abbreviation + ": " + m_driveEncoder.getVelocityConversionFactor());
+
 
     m_tab = Shuffleboard.getTab(m_abbreviation);
     m_drivePIDEncoderValue = m_tab.add(m_abbreviation + " Drive Enc", 0).getEntry();
@@ -200,13 +204,13 @@ public class SwerveModule {
 
     // 4765: updates the values in Shuffleboard on this module's tab
     m_drivePIDEncoderValue.setValue(driveEncoderVelocity);
-    m_drivePIDWantValue.setValue(desiredState.speedMetersPerSecond);
+    m_drivePIDWantValue.setValue(state.speedMetersPerSecond);
     m_drivePIDOutputValue.setValue(driveOutput);
 
     // 4765: Temporary NON-PID output value calculation to bring swerve up without
     // tuning PID
 
-    double tempSetDrive = state.speedMetersPerSecond * 0.148;
+    double tempSetDrive = state.speedMetersPerSecond;
     // 4765: updates the values in Shuffleboard on this module's tab
     m_tempSetDrive.setValue(tempSetDrive);
 
@@ -225,7 +229,7 @@ public class SwerveModule {
     m_tempSetTurn.setValue(tempSetTurn);
 
     // 4765: this block uses the temp NON-PID values
-    m_driveMotor.set(tempSetDrive);
+    m_driveMotor.set(driveEncoderVelocity + driveOutput);
     m_turningMotor.set(tempSetTurn);
 
     // 4765: this block uses the PID values with some experimental fudge factors

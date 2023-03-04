@@ -23,15 +23,15 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 public final class Constants {
   public static final class DriveConstants {
     // 4765: Used our addresses
-    public static final int kFrontLeftDriveMotorPort = 13;
-    public static final int kRearLeftDriveMotorPort = 12;
-    public static final int kFrontRightDriveMotorPort = 21;
-    public static final int kRearRightDriveMotorPort = 10;
+    public static final int kFrontLeftDriveMotorPort = 10;
+    public static final int kRearLeftDriveMotorPort = 21;
+    public static final int kFrontRightDriveMotorPort = 12;
+    public static final int kRearRightDriveMotorPort = 13;
 
-    public static final int kFrontLeftTurningMotorPort = 23;
-    public static final int kRearLeftTurningMotorPort = 24;
-    public static final int kFrontRightTurningMotorPort = 11;
-    public static final int kRearRightTurningMotorPort = 22;
+    public static final int kFrontLeftTurningMotorPort = 22;
+    public static final int kRearLeftTurningMotorPort = 11;
+    public static final int kFrontRightTurningMotorPort = 24;
+    public static final int kRearRightTurningMotorPort = 23;
 
     public static final int kFrontLeftTurningEncoderPort = 1;
     public static final int kRearLeftTurningEncoderPort = 4;
@@ -48,16 +48,17 @@ public final class Constants {
     // 4765: determined by trial and error - probably right?
 
     public static final boolean kFrontLeftDriveEncoderReversed = false;
-    public static final boolean kRearLeftDriveEncoderReversed = true;
+    public static final boolean kRearLeftDriveEncoderReversed = false;
     public static final boolean kFrontRightDriveEncoderReversed = false;
-    public static final boolean kRearRightDriveEncoderReversed = true;
+    public static final boolean kRearRightDriveEncoderReversed = false;
 
     // 4765: figured out by using Phoenix Tuner app
 
-    public static final double kFrontLeftTurningMagnetOffset = 34.63;
-    public static final double kRearLeftTurningMagnetOffset = 29.0;
-    public static final double kFrontRightTurningMagnetOffset = 92.7;
-    public static final double kRearRightTurningMagnetOffset = -158.0;
+    // Final(?) calibration with arm in final(?) orientation
+    public static final double kFrontLeftTurningMagnetOffset = 21.7;
+    public static final double kRearLeftTurningMagnetOffset = -88.0;
+    public static final double kFrontRightTurningMagnetOffset = 209.25;
+    public static final double kRearRightTurningMagnetOffset = -145.45;
 
     // less old
     // public static final double kFrontLeftTurningMagnetOffset = -57.75;
@@ -108,7 +109,7 @@ public final class Constants {
     // 4765: Not sure what this should be configured to be, but made it slow for
     // safe testing during development
     // 4765 TODO: deteremine what this should be set to
-    public static final double kMaxSpeedMetersPerSecond = 1;
+    public static final double kMaxSpeedMetersPerSecond = 0.8;
 
     // 4765: Introduced some deadband constants (remember that X is forward!)
     public static final double kXSpeedDeadband = 0.1;
@@ -138,12 +139,12 @@ public final class Constants {
     // 4765 TODO: Test and tune this. Important!!!
 
     // Drive PID P value
-    public static final double kPModuleDriveController = 0.01;
+    public static final double kPModuleDriveController = 0.8;
 
     // 4765 TODO: Test and tune this. Important!!!
 
     // Turning PID P value
-    public static final double kPModuleTurningController = 0.15;
+    public static final double kPModuleTurningController = 0.000;
 
   }
 

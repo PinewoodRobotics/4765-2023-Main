@@ -41,6 +41,9 @@ public class RobotContainer {
   // 4765: converted this from xbox to joystick
   Joystick m_driverController = new Joystick(OIConstants.kDriverControllerPort);
 
+   // 4765: converted this from xbox to joystick
+   //XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -59,8 +62,8 @@ public class RobotContainer {
             () -> m_robotDrive.drive(
                 m_driverController.getY() * -1,
                 m_driverController.getX() * -1,
-                m_driverController.getZ() * -1,
-                false),
+                m_driverController.getZ() * -1,              
+                true),
             m_robotDrive));
 
   }

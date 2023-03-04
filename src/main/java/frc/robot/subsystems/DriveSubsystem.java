@@ -5,16 +5,21 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import com.kauailabs.navx.frc.AHRS;
 import frc.robot.Constants.DriveConstants;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.I2C.Port;
+
 
 public class DriveSubsystem extends SubsystemBase {
   // Robot swerve modules
@@ -63,6 +68,8 @@ public class DriveSubsystem extends SubsystemBase {
 
   // 4765 TODO: This currently throws an error at runtime. Gyro broken? Use NavX instead?
   private final Gyro m_gyro = new ADXRS450_Gyro();
+
+  private final AHRS ahrs = new AHRS(I2C.Port.kMXP);
 
   // 4765: Commented out since not using odometry yet
 
@@ -143,6 +150,14 @@ public class DriveSubsystem extends SubsystemBase {
    *                      field.
    */
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
+
+    SmartDashboard.putNumber(   "IMU_Yaw",              ahrs.getYaw());
+    SmartDashboard.putNumber(   "IMU_Pitch",            ahrs.getPitch());
+    SmartDashboard.putNumber(   "IMU_Roll",             ahrs.getRoll());
+    
+    SmartDashboard.putNumber(   "IMU_CompassHeading",   ahrs.getCompassHeading());
+
+
     // 4765: Puts joystick inout data on main shuffleboard for debugging
     SmartDashboard.putNumber("xSpeed", xSpeed);
     SmartDashboard.putNumber("ySpeed", ySpeed);
@@ -161,7 +176,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
         fieldRelative
-            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, m_gyro.getRotation2d())
+            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, (Rotation2d.fromDegrees(ahrs.getYaw()*-1)))
             : new ChassisSpeeds(xSpeed, ySpeed, rot));
 
     SwerveDriveKinematics.desaturateWheelSpeeds(
@@ -222,4 +237,6 @@ public class DriveSubsystem extends SubsystemBase {
   public double getTurnRate() {
     return m_gyro.getRate() * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
   }
+
+  Override teleop
 }
