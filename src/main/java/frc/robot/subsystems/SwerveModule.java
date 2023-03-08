@@ -49,14 +49,19 @@ public class SwerveModule {
 
   // 4765 TODO: tune P, I, and D for this PID controller
 
-  // Using a TrapezoidProfile PIDController to allow for smooth turning
-  private final ProfiledPIDController m_turningPIDController = new ProfiledPIDController(
+  private final PIDController m_turningPIDController = new PIDController(
       ModuleConstants.kPModuleTurningController,
-      0.0000,
-      0.0000,
-      new TrapezoidProfile.Constraints(
-          ModuleConstants.kMaxModuleAngularSpeedRadiansPerSecond,
-          ModuleConstants.kMaxModuleAngularAccelerationRadiansPerSecondSquared));
+      0,
+      0.00);
+
+  // Using a TrapezoidProfile PIDController to allow for smooth turning
+  // private final ProfiledPIDController m_turningPIDController = new ProfiledPIDController(
+  //     ModuleConstants.kPModuleTurningController,
+  //     0.0000,
+  //     0.000,
+  //     new TrapezoidProfile.Constraints(
+  //         ModuleConstants.kMaxModuleAngularSpeedRadiansPerSecond,
+  //         ModuleConstants.kMaxModuleAngularAccelerationRadiansPerSecondSquared));
 
   // 4765: member variables needed to use tabs in shuffleboard
   private String m_abbreviation;
@@ -108,6 +113,7 @@ public class SwerveModule {
     config.sensorCoefficient = 2 * Math.PI / 4096.0;
     config.unitString = "rad";
     config.initializationStrategy = SensorInitializationStrategy.BootToAbsolutePosition;
+  
     // config.sensorTimeBase = SensorTimeBase.PerSecond;
     m_turningEncoder.configAllSettings(config);
 
@@ -229,8 +235,8 @@ public class SwerveModule {
     m_tempSetTurn.setValue(tempSetTurn);
 
     // 4765: this block uses the temp NON-PID values
-    m_driveMotor.set(driveEncoderVelocity + driveOutput);
-    m_turningMotor.set(tempSetTurn);
+    //m_driveMotor.set(driveEncoderVelocity + driveOutput);
+    m_turningMotor.set(state.angle.getRadians() + turnOutput);
 
     // 4765: this block uses the PID values with some experimental fudge factors
     // 4765 TODO: Figure this out!!!!
