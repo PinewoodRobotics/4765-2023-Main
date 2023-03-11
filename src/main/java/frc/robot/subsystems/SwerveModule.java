@@ -236,7 +236,7 @@ public class SwerveModule {
 
     // 4765: this block uses the temp NON-PID values
     //m_driveMotor.set(driveEncoderVelocity + driveOutput);
-    m_turningMotor.set(state.angle.getRadians() + turnOutput);
+    m_turningMotor.set(state.angle.getRadians());
 
     // 4765: this block uses the PID values with some experimental fudge factors
     // 4765 TODO: Figure this out!!!!
