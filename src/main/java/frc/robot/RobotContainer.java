@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 // import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 // import java.util.List;
+import frc.robot.subsystems.ArmSubsystem;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -35,14 +36,19 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class RobotContainer {
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
+  private final ArmSubsystem m_armSubsystem = new ArmSubsystem();
 
   // The driver's controller
 
   // 4765: converted this from xbox to joystick
   Joystick m_driverController = new Joystick(OIConstants.kDriverControllerPort);
 
-   // 4765: converted this from xbox to joystick
-   //XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
+  // Arm Controller
+  private final XboxController m_armController = new XboxController(1);
+
+  // 4765: converted this from xbox to joystick
+  // XboxController m_driverController = new
+  // XboxController(OIConstants.kDriverControllerPort);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -62,9 +68,17 @@ public class RobotContainer {
             () -> m_robotDrive.drive(
                 m_driverController.getY() * -1,
                 m_driverController.getX() * -1,
-                m_driverController.getZ() * -1,              
+                m_driverController.getZ() * -1,
                 false),
             m_robotDrive));
+
+    m_armSubsystem.setDefaultCommand(
+        new RunCommand(
+            () -> m_armSubsystem.move(
+              m_armController.getRawAxis(1),
+              m_armController.getRawAxis(3),
+              m_armController.getRightTriggerAxis()),
+            m_armSubsystem));
 
   }
 
