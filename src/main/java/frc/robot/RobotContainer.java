@@ -44,7 +44,7 @@ public class RobotContainer {
   Joystick m_driverController = new Joystick(OIConstants.kDriverControllerPort);
 
   // Arm Controller
-  private final XboxController m_armController = new XboxController(1);
+  XboxController m_armController = new XboxController(1);
 
   // 4765: converted this from xbox to joystick
   // XboxController m_driverController = new
@@ -75,11 +75,10 @@ public class RobotContainer {
     m_armSubsystem.setDefaultCommand(
         new RunCommand(
             () -> m_armSubsystem.move(
-              m_armController.getRawAxis(1),
+              m_armController.getRawAxis(1) * -1,
               m_armController.getRawAxis(3),
               m_armController.getRightTriggerAxis()),
             m_armSubsystem));
-
   }
 
   /**
