@@ -144,7 +144,7 @@ public final class Constants {
     // 4765 TODO: Test and tune this. Important!!!
 
     // Turning PID P value
-    public static final double kPModuleTurningController = 0.8;
+    public static final double kPModuleTurningController = 0.05;
 
   }
 

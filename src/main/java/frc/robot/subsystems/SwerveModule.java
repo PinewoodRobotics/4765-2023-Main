@@ -52,7 +52,7 @@ public class SwerveModule {
   private final PIDController m_turningPIDController = new PIDController(
       ModuleConstants.kPModuleTurningController,
       0,
-      0.00);
+      0);
 
   // Using a TrapezoidProfile PIDController to allow for smooth turning
   // private final ProfiledPIDController m_turningPIDController = new ProfiledPIDController(
@@ -74,6 +74,10 @@ public class SwerveModule {
   private GenericEntry m_turnPIDOutputValue;
   private GenericEntry m_tempSetDrive;
   private GenericEntry m_tempSetTurn;
+  private GenericEntry m_turnPIDatSetpoint;
+  private GenericEntry m_turnPIDPositionTolerance;
+  private GenericEntry m_driveDesiredState;
+  private GenericEntry m_turnDesiredState;
 
   /**
    * Constructs a SwerveModule.
@@ -148,6 +152,8 @@ public class SwerveModule {
     // to be continuous.
     // 4765: Updated to the correct call for our hardware.
     m_turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
+    m_turningPIDController.setTolerance(0.01, m_turningPIDController.getVelocityTolerance());
+    
 
     // 4765: Establishes Shuffleboard tab for this module and establishes initial
     // values to show
@@ -165,6 +171,11 @@ public class SwerveModule {
     m_turnPIDOutputValue = m_tab.add(m_abbreviation + " Turn Output", 0).getEntry();
     m_tempSetDrive = m_tab.add(m_abbreviation + " Temp Drive", 0).getEntry();
     m_tempSetTurn = m_tab.add(m_abbreviation + " Temp Turn", 0).getEntry();
+    m_turnPIDatSetpoint = m_tab.add(m_abbreviation + " Temp at Set", 0).getEntry();
+    m_turnPIDPositionTolerance = m_tab.add(m_abbreviation + " Temp P Tol", 0).getEntry();
+    m_turnDesiredState = m_tab.add(m_abbreviation + " T DesiredState", 0).getEntry();
+    m_driveDesiredState = m_tab.add(m_abbreviation + " D DesiredState", 0).getEntry();
+
   }
 
   // 4765: Updated to the correct calls for our hardware
@@ -198,9 +209,13 @@ public class SwerveModule {
    */
   public void setDesiredState(SwerveModuleState desiredState) {
 
+    m_driveDesiredState.setValue(desiredState.speedMetersPerSecond);
+    m_turnDesiredState.setValue(desiredState.angle.getRadians());
+
+
     double driveEncoderVelocity = m_driveEncoder.getVelocity();
     double turningEncoderPosition = m_turningEncoder.getAbsolutePosition();
-
+    
     // Optimize the reference state to avoid spinning further than 90 degrees
     SwerveModuleState state = SwerveModuleState.optimize(desiredState, new Rotation2d(turningEncoderPosition));
 
@@ -227,6 +242,8 @@ public class SwerveModule {
     m_turnPIDEncoderValue.setValue(turningEncoderPosition);
     m_turnPIDWantValue.setValue(state.angle.getRadians());
     m_turnPIDOutputValue.setValue(turnOutput);
+    m_turnPIDatSetpoint.setValue(m_turningPIDController.atSetpoint());
+    m_turnPIDPositionTolerance.setValue(m_turningPIDController.getPositionTolerance());
 
     // 4765: Temporary NON-PID output value calculation to bring swerve up without
     // tuning PID
@@ -235,13 +252,23 @@ public class SwerveModule {
     m_tempSetTurn.setValue(tempSetTurn);
 
     // 4765: this block uses the temp NON-PID values
-    //m_driveMotor.set(driveEncoderVelocity + driveOutput);
-    m_turningMotor.set(state.angle.getRadians());
+    //m_driveMotor.set(tempSetDrive * 6.75);
+    m_turningMotor.set(tempSetTurn);
 
     // 4765: this block uses the PID values with some experimental fudge factors
     // 4765 TODO: Figure this out!!!!
-    // m_driveMotor.set(0.5 * 6.75);
-    // m_turningMotor.set(turnOutput * 5);
+    
+    //m_driveMotor.set(driveEncoderVelocity + driveOutput);
+
+
+// if (m_turningPIDController.atSetpoint()) {
+//   m_turningMotor.set(0);
+// } else {
+//   m_turningMotor.set(turnOutput);
+//}
+
+
+
   }
 
   // 4765: Our encoders don't reset and not sure if we need this

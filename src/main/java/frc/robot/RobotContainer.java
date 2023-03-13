@@ -63,12 +63,12 @@ public class RobotContainer {
     // for driving command
 
     m_robotDrive.setDefaultCommand(
-        // 4765: Controller commands converted to use flight stick
+        // 4765: Controller commands converted for various joysticks
         new RunCommand(
             () -> m_robotDrive.drive(
-                m_driverController.getY() * -1,
-                m_driverController.getX() * -1,
-                m_driverController.getZ() * -1,
+                m_driverController.getRawAxis(1) * -1,
+                m_driverController.getRawAxis(0) * -1,
+                m_driverController.getRawAxis(2) * -1,
                 false),
             m_robotDrive));
 
@@ -77,7 +77,7 @@ public class RobotContainer {
             () -> m_armSubsystem.move(
               m_armController.getRawAxis(1) * -1,
               m_armController.getRawAxis(3),
-              m_armController.getRightTriggerAxis()),
+              m_armController.getPOV()),
             m_armSubsystem));
   }
 

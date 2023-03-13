@@ -12,17 +12,18 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 
 public class ClawSubsystem extends SubsystemBase {
-    private final TalonSRX m_clawMotor = new TalonSRX(10);
+    private final TalonSRX m_clawMotor = new TalonSRX(6);
 
     public ClawSubsystem() {
-        m_clawMotor.configContinuousCurrentLimit(10);
+        m_clawMotor.configContinuousCurrentLimit(5);
+        m_clawMotor.configPeakCurrentLimit(5);
     }
 
     public void grab(){
-        m_clawMotor.set(ControlMode.PercentOutput, .3);
+        //m_clawMotor.set(ControlMode.PercentOutput, 0.8);
     }
 
     public void release(){
-        m_clawMotor.set(ControlMode.PercentOutput, 0);
+        //m_clawMotor.set(ControlMode.PercentOutput, -0.2);
     }
 }

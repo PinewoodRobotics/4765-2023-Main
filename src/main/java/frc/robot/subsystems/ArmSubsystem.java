@@ -26,20 +26,19 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     public void moveClaw(double axis){
-        m_clawSubsystem.grab(axis);
+        m_clawSubsystem.grab();
     }
 
-    public void move(double pitch, double reach, double grab) {
+    public void move(double pitch, double reach, int grab) {
         // TODO: Do smart things here...
 
         m_pitchSubsystem.move(pitch);
         m_reachSubsystem.move(reach);
 
-        // grab is either 0 or 1 even though it is typed double
-        if (grab == 1) {
-            //m_clawSubsystem.grab();
+        if (grab > -1) {
+            m_clawSubsystem.grab();
         } else {
-            //Release?
+            m_clawSubsystem.release();
         }
     }
 
