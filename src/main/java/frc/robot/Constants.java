@@ -112,9 +112,9 @@ public final class Constants {
     public static final double kMaxSpeedMetersPerSecond = 0.5;
 
     // 4765: Introduced some deadband constants (remember that X is forward!)
-    public static final double kXSpeedDeadband = 0.1;
-    public static final double kYSpeedDeadband = 0.1;
-    public static final double kRotDeadband = 0.1;
+    public static final double kXSpeedDeadband = 0.01;
+    public static final double kYSpeedDeadband = 0.01;
+    public static final double kRotDeadband = 0.01;
   }
 
   public static final class ModuleConstants {
@@ -144,7 +144,7 @@ public final class Constants {
     // 4765 TODO: Test and tune this. Important!!!
 
     // Turning PID P value
-    public static final double kPModuleTurningController = 0.05;
+    public static final double kPModuleTurningController = 0.2;
 
   }
 
