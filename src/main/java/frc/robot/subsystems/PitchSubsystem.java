@@ -26,7 +26,11 @@ public class PitchSubsystem extends SubsystemBase {
 //0.93
 //0.5
 
-
+         /** Creates a new PitchSubsystem. */
+         public PitchSubsystem() {
+            SmartDashboard.putNumber("Meas Pitch", m_pitchEncoder.get());
+         }
+         
     public void move(double axis){
         double encoderPitchValue = m_pitchEncoder.get();
         if (encoderPitchValue <= lowerLimit) {
@@ -49,6 +53,7 @@ public class PitchSubsystem extends SubsystemBase {
             }
         }
         SmartDashboard.putNumber("pitch", encoderPitchValue);
+        SmartDashboard.putNumber("Meas Pitch", m_pitchEncoder.get());
     }
 
     public void set(double number) {

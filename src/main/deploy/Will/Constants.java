@@ -112,9 +112,9 @@ public final class Constants {
     public static final double kMaxSpeedMetersPerSecond = 2;
 
     // 4765: Introduced some deadband constants (remember that X is forward!)
-    public static final double kXSpeedDeadband = 0.05;
-    public static final double kYSpeedDeadband = 0.05;
-    public static final double kRotDeadband = 0.05;
+    public static final double kXSpeedDeadband = 0.1;
+    public static final double kYSpeedDeadband = 0.1;
+    public static final double kRotDeadband = 0.1;
   }
 
   public static final class ModuleConstants {
@@ -145,92 +145,6 @@ public final class Constants {
 
     // Turning PID P value
     public static final double kPModuleTurningController = 0.05;
-
-  }
-
-  public static final class ArmConstants {
-    public static final double kPitchLevel = 0;
-    //reach full extention 10.5
-    //reach full retraction 0.15
-    
-    //pitch upper limit -0.1
-    //pitch lower limit 
-
-    // first two, centered on grid tag
-    // second two, centered on grid tag distanced to rotate
-    // third two, rotated to the right (for scoring on left) 
-
-    // grid
-    // yaw -125.1
-    // rotated yaw -103.73
-    // driven rotated yaw -103.5
-    // diference 22
-
-    // shelf
-    // driven rotated yaw 96.12
-    // centered 64.77
-    // rotated yaw 97.74
-    // difference 30
-
-    // fourth four, centered not distanced
-    // fifth four, centered distanced
-    // sixth four, rotated
-    // seventh four, rotated and driven
-    // eighth four, centered shelf
-    // ninth four, rotated and driven shelf
-
-
-    //top shelf mod pitch 0.162
-    //top shelf mod reach 
-
-    //top cone mod pitch 1.65
-    //top cone mod reach 9.84
-
-    //mid code mod pitch .153
-    //mid cone mod reach 3.47
-
-    //bottom cone and cube mod pitch -0.094
-    //bottom cone and cube mod reach 0.15
-
-    //mid cube mod pitch 0.0858
-    //mid cube mod reach 2.426
-
-    //top cube mod pitch 0.124
-    //top cuve mod reach 8.739
-
-    //bottom cube mod pitch
-    //bottom cube mod reach
-
-    public static final double kPitchConeTopScoreMod = 1;
-    public static final double kPitchConeMidScoreMod = 1;
-    public static final double kPitchConeBotScoreMod = -1;
-
-    public static final double kPitchCubeTopScoreMod = 1;
-    public static final double kPitchCubeMidScoreMod = 1;
-    public static final double kPitchCubeBotScoreMod = -1;
-
-    public static final double kReachConeTopScoreMod = 1;
-    public static final double kReachConeMidScoreMod = 1;
-    public static final double kReachConeBotScoreMod = 1;
-
-    public static final double kReachCubeTopScoreMod = 1;
-    public static final double kReachCubeMidScoreMod = 1;
-    public static final double kReachCubeBotScoreMod = 1;
-
-    public static final double kPitchTopShelfMod = 1;
-    public static final double kReachTopShelfMod = 1;
-
-    public static final double kPitchBotShelfMod = 1;
-    public static final double kReachBotShelfMod = 1;
-
-    public static final double kRetractedPitch = 1;
-    public static final double kRetractedReach = 1;
-
-    public static final double kScoreRotationAngle = 1;
-
-    // cone top shelf grab 
-    
-    // scoring constants
 
   }
 

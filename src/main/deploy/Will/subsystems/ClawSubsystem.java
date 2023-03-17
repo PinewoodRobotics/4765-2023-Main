@@ -10,7 +10,6 @@ import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ClawSubsystem extends SubsystemBase {
     private final TalonSRX m_clawMotor = new TalonSRX(6);
@@ -18,16 +17,6 @@ public class ClawSubsystem extends SubsystemBase {
     public ClawSubsystem() {
         m_clawMotor.configContinuousCurrentLimit(3);
         m_clawMotor.configPeakCurrentLimit(3);
-        m_clawMotor.enableCurrentLimit(true);
-        SmartDashboard.putBoolean("claw grabbing", false);
-    }
-
-    public void moveClaw(){
-        if (SmartDashboard.getBoolean("claw grabbing", false) == true) {
-            grab();
-        } else {
-            release();
-        }
     }
 
     public void grab(){

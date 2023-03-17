@@ -26,26 +26,21 @@ public class ArmSubsystem extends SubsystemBase {
         m_reachSubsystem.move(axis);
     }
 
-    //public void moveClaw(double axis){
-    //    m_clawSubsystem.grab();
-    //}
-
-    public void setArm(double pitch, double reach) {
-        m_pitchSubsystem.set(pitch);
-        m_reachSubsystem.set(reach);
+    public void moveClaw(double axis){
+        m_clawSubsystem.grab();
     }
 
-    public void move(double pitch, double reach) {
+    public void move(double pitch, double reach, int grab) {
         // TODO: Do smart things here...
 
         m_pitchSubsystem.move(pitch * 0.9);
         m_reachSubsystem.move(reach * 0.9);
 
-        //if (grab > -1) {
-        //    m_clawSubsystem.grab();
-        //} else {
-        //    m_clawSubsystem.release();
-        //}
+        if (grab > -1) {
+            m_clawSubsystem.grab();
+        } else {
+            m_clawSubsystem.release();
+        }
     }
 
     public double getPosPitch(){
