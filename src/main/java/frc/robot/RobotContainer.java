@@ -42,8 +42,6 @@ public class RobotContainer {
   private final ArmSubsystem m_armSubsystem = new ArmSubsystem();
   private final ClawSubsystem m_clawSubsystem = new ClawSubsystem();
 
-  private final NetworkTable limelightTable = new NetworkTable();
-
   // The driver's controller
 
   // 4765: converted this from xbox to joystick

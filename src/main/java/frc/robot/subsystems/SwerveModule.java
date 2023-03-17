@@ -47,6 +47,7 @@ public class SwerveModule {
 
   private final CANCoder m_canCoderEncoder;
 
+  private double m_loopCount = 0;
   
   public double
   kDriveP,
@@ -98,6 +99,7 @@ public class SwerveModule {
   sb_turnNewPosition,
   sb_turnSparkNew,
   sb_turnCanCLive,
+  sb_turnCanCPosLive,
   sb_turnSetPoint,
   sb_turnProcessVariable,
   sb_turnSparkLive;
@@ -326,6 +328,10 @@ public class SwerveModule {
         "T17: CanC Live", 
         m_canCoderEncoder.getAbsolutePosition()).getEntry();
 
+        sb_turnCanCPosLive = m_tab.add(
+          "T17: CanC Live", 
+          m_canCoderEncoder.getPosition()).getEntry();
+
     sb_turnSetPoint = m_tab.add("T18: Set Point", 0).getEntry();
     sb_turnProcessVariable = m_tab.add("T19: Proc Vari", 0).getEntry();
     sb_turnSparkLive = m_tab.add("T20: Spark Live", 0).getEntry();
@@ -370,6 +376,7 @@ public class SwerveModule {
 sb_turnSparkNew.setValue(m_sparkMaxTurnEncoder.getPosition());
 
 sb_turnCanCLive.setValue(m_canCoderEncoder.getAbsolutePosition());
+sb_turnCanCPosLive.setValue(m_canCoderEncoder.getPosition());
 
 
 double driveP = sb_kDriveP.getDouble(0);
@@ -461,6 +468,7 @@ double turnCanCFactor = sb_turnCanCFactor.getDouble(0);
 double turnNewPosition = sb_turnNewPosition.getDouble(0);
 double turnSparkNew = sb_turnSparkNew.getDouble(0);
 double turnCanCLive = sb_turnCanCLive.getDouble(0);
+double turnCanCPosLive = sb_turnCanCPosLive.getDouble(0);
 
 
 
