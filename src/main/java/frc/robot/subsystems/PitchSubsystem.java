@@ -20,8 +20,8 @@ public class PitchSubsystem extends SubsystemBase {
     private final DutyCycleEncoder m_pitchEncoder = new DutyCycleEncoder (5); // pitch
     private final double upperLimit = ArmConstants.kPitchLevel + 100; // placeholder values
     private final double lowerLimit = ArmConstants.kPitchLevel - 100;
-    private final double upMotorCoefficient = 0.4;
-    private final double downMotorCoefficient = 0.2;
+    private final double upMotorCoefficient = 0.2;
+    private final double downMotorCoefficient = 0.4;
     
 //0.93
 //0.5

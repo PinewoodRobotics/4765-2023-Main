@@ -329,7 +329,7 @@ public class SwerveModule {
         m_canCoderEncoder.getAbsolutePosition()).getEntry();
 
         sb_turnCanCPosLive = m_tab.add(
-          "T17: CanC Live", 
+          "T17b: CanC Pos Live", 
           m_canCoderEncoder.getPosition()).getEntry();
 
     sb_turnSetPoint = m_tab.add("T18: Set Point", 0).getEntry();
