@@ -109,7 +109,7 @@ public final class Constants {
     // 4765: Not sure what this should be configured to be, but made it slow for
     // safe testing during development
     // 4765 TODO: deteremine what this should be set to
-    public static final double kMaxSpeedMetersPerSecond = 0.5;
+    public static final double kMaxSpeedMetersPerSecond = 2;
 
     // 4765: Introduced some deadband constants (remember that X is forward!)
     public static final double kXSpeedDeadband = 0.1;

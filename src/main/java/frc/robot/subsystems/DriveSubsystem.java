@@ -94,6 +94,10 @@ public class DriveSubsystem extends SubsystemBase {
   public DriveSubsystem() {
   }
 
+  public void reportData() {
+    //m_frontLeft.reportData();
+  }
+
   @Override
   public void periodic() {
 
@@ -109,6 +113,7 @@ public class DriveSubsystem extends SubsystemBase {
     // m_rearRight.getPosition()
     // });
   }
+
 
   // 4765: Commented out since not using odometry yet
 
@@ -176,7 +181,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
         fieldRelative
-            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, (Rotation2d.fromDegrees(ahrs.getYaw()*-1)))
+            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, (Rotation2d.fromDegrees(ahrs.getYaw())))
             : new ChassisSpeeds(xSpeed, ySpeed, rot));
 
     SwerveDriveKinematics.desaturateWheelSpeeds(

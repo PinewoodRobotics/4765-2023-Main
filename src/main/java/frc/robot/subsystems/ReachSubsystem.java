@@ -11,12 +11,19 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class ReachSubsystem extends SubsystemBase {
     private final TalonSRX m_reachMotor = new TalonSRX(9);
     private final DutyCycleEncoder m_reachEncoder = new DutyCycleEncoder (0); // pitch
-    private final double upperLimit = 5.37;
-    private final double lowerLimit = -4.22;
-    private final double motorCoefficient = 0.9;
+    private final double upperLimit = 100;
+    private final double lowerLimit = -100;
+    private final double motorCoefficient = 1;
+
+      /** Creates a new ReachSubsystem. */
+  public ReachSubsystem() {
+    SmartDashboard.putNumber("Meas Reach", m_reachEncoder.get());
+}
 
     public void move(double axis){
         double encoderReachValue = m_reachEncoder.get();
@@ -35,7 +42,7 @@ public class ReachSubsystem extends SubsystemBase {
         } else {
             m_reachMotor.set(ControlMode.PercentOutput, axis * motorCoefficient);
         }
-
+        SmartDashboard.putNumber("Meas Reach", m_reachEncoder.get());
     }
 
 
