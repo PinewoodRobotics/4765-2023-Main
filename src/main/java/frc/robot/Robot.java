@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -28,6 +29,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+
   }
 
   /**
@@ -87,11 +89,26 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
+    SmartDashboard.putBoolean("Top Left", false);
+    SmartDashboard.putBoolean("Mid Left", false);
+    SmartDashboard.putBoolean("Bottom Left", false);
+
+    SmartDashboard.putBoolean("Top Center", false);
+    SmartDashboard.putBoolean("Mid Center", false);
+    SmartDashboard.putBoolean("Bottom Center", false);
+
+    SmartDashboard.putBoolean("Top Right", false);
+    SmartDashboard.putBoolean("Mid Right", false);
+    SmartDashboard.putBoolean("Bottom Right", false);
+
   }
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+
+  }
 
   @Override
   public void testInit() {

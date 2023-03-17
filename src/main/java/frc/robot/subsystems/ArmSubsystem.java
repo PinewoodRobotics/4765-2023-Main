@@ -10,6 +10,7 @@ import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ArmSubsystem extends SubsystemBase {
     private final ReachSubsystem m_reachSubsystem = new ReachSubsystem();
@@ -25,21 +26,26 @@ public class ArmSubsystem extends SubsystemBase {
         m_reachSubsystem.move(axis);
     }
 
-    public void moveClaw(double axis){
-        m_clawSubsystem.grab();
+    //public void moveClaw(double axis){
+    //    m_clawSubsystem.grab();
+    //}
+
+    public void setArm(double pitch, double reach) {
+        m_pitchSubsystem.set(pitch);
+        m_reachSubsystem.set(reach);
     }
 
-    public void move(double pitch, double reach, int grab) {
+    public void move(double pitch, double reach) {
         // TODO: Do smart things here...
 
         m_pitchSubsystem.move(pitch);
         m_reachSubsystem.move(reach);
 
-        if (grab > -1) {
-            m_clawSubsystem.grab();
-        } else {
-            m_clawSubsystem.release();
-        }
+        //if (grab > -1) {
+        //    m_clawSubsystem.grab();
+        //} else {
+        //    m_clawSubsystem.release();
+        //}
     }
 
     public double getPosPitch(){

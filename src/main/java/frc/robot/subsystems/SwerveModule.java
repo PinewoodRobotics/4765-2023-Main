@@ -95,7 +95,7 @@ public class SwerveModule {
       int driveMotorChannel,
       int turningMotorChannel,
       int turningEncoderChannel,
-      boolean driveEncoderReversed,
+      boolean driveEncoderReversed, 
       boolean turningEncoderReversed,
       double turningEncoderMagnetOffset,
       String abbreviation) {
@@ -260,7 +260,7 @@ public class SwerveModule {
 
     // 4765: this block uses the temp NON-PID values
     //m_driveMotor.set(tempSetDrive * 6.75);
-    m_turningMotor.set(tempSetTurn);
+    //m_turningMotor.set(tempSetTurn);
 
     // 4765: this block uses the PID values with some experimental fudge factors
     // 4765 TODO: Figure this out!!!!

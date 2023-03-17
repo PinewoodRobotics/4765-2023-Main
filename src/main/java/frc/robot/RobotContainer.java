@@ -14,6 +14,8 @@ package frc.robot;
 // import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.Joystick;
 
 // import frc.robot.Constants.AutoConstants;
@@ -26,6 +28,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 // import java.util.List;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.ClawSubsystem;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -37,6 +40,9 @@ public class RobotContainer {
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private final ArmSubsystem m_armSubsystem = new ArmSubsystem();
+  private final ClawSubsystem m_clawSubsystem = new ClawSubsystem();
+
+  private final NetworkTable limelightTable = new NetworkTable();
 
   // The driver's controller
 
@@ -75,11 +81,15 @@ public class RobotContainer {
     m_armSubsystem.setDefaultCommand(
         new RunCommand(
             () -> m_armSubsystem.move(
-              m_armController.getRawAxis(1) * -1,
-              m_armController.getRawAxis(3),
-              m_armController.getPOV()),
+              m_armController.getRawAxis(1),
+              m_armController.getRawAxis(3)),
             m_armSubsystem));
-  }
+
+    m_clawSubsystem.setDefaultCommand(
+    new RunCommand(
+        () -> m_clawSubsystem.moveClaw(),
+        m_clawSubsystem));
+}
 
   /**
    * Use this method to define your button->command mappings. Buttons can be

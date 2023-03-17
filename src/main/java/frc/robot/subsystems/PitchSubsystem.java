@@ -4,8 +4,12 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.ArmConstants;
+
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -14,26 +18,45 @@ import edu.wpi.first.wpilibj.DutyCycleEncoder;
 public class PitchSubsystem extends SubsystemBase {
     private final TalonSRX m_pitchMotor = new TalonSRX(5);
     private final DutyCycleEncoder m_pitchEncoder = new DutyCycleEncoder (5); // pitch
-    private final double upperLimit = 0.95;
-    private final double lowerLimit = 0.75;
-    private final double motorCoefficient = 0.4;
+    private final double upperLimit = ArmConstants.kPitchLevel + 100; // placeholder values
+    private final double lowerLimit = ArmConstants.kPitchLevel - 100;
+    private final double upMotorCoefficient = 0.4;
+    private final double downMotorCoefficient = 0.2;
     
+//0.93
+//0.5
+
+
     public void move(double axis){
         double encoderPitchValue = m_pitchEncoder.get();
         if (encoderPitchValue <= lowerLimit) {
             if (axis<0) {
-                m_pitchMotor.set(ControlMode.PercentOutput, axis * motorCoefficient);
+                m_pitchMotor.set(ControlMode.PercentOutput, axis * downMotorCoefficient);
             } else {
                 m_pitchMotor.set(ControlMode.PercentOutput, 0);
             }
         } else if (encoderPitchValue >= upperLimit) {
             if (axis>0) {
-                m_pitchMotor.set(ControlMode.PercentOutput, axis * motorCoefficient);
+                m_pitchMotor.set(ControlMode.PercentOutput, axis * upMotorCoefficient);
             } else {
                 m_pitchMotor.set(ControlMode.PercentOutput, 0);
             }
         } else {
-            m_pitchMotor.set(ControlMode.PercentOutput, axis*motorCoefficient);
+            if (axis<0) {
+                m_pitchMotor.set(ControlMode.PercentOutput, axis*downMotorCoefficient);
+            } else if (axis>0) {
+                m_pitchMotor.set(ControlMode.PercentOutput, axis*upMotorCoefficient);
+            }
+        }
+        SmartDashboard.putNumber("pitch", encoderPitchValue);
+    }
+
+    public void set(double number) {
+        double currentPitch = m_pitchEncoder.get();
+        if (currentPitch > number) {
+            m_pitchMotor.set(ControlMode.PercentOutput, -0.3);
+        } else if (currentPitch < number) {
+            m_pitchMotor.set(ControlMode.PercentOutput, 0.3);
         }
     }
 
