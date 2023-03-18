@@ -315,7 +315,7 @@ public class SwerveModule {
         double postion = sb_turnCanCFactor.getDouble(0);
 
         if ( postion < 0 ) {
-            postion = postion * -1;
+            postion = postion;
         }
 
     m_sparkMaxTurnEncoder.setPosition(postion);
@@ -512,7 +512,7 @@ double turnCanCPosLive = sb_turnCanCPosLive.getDouble(0);
 
     //m_sparkMaxDrivePIDController.setReference(1000, CANSparkMax.ControlType.kVelocity);
 
-    m_sparkMaxDrivePIDController.setReference(state.speedMetersPerSecond * kDriveMaxRPM, CANSparkMax.ControlType.kVelocity);
+    m_sparkMaxDrivePIDController.setReference(state.speedMetersPerSecond * kDriveMaxRPM*2, CANSparkMax.ControlType.kVelocity);
 
     //m_driveMotor.set(state.speedMetersPerSecond);
 

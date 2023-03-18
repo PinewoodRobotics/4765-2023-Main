@@ -17,12 +17,15 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.Joystick;
+import frc.robot.commands.*;
+
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 // import frc.robot.Constants.AutoConstants;
 // import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.DriveSubsystem;
-// import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 // import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -79,13 +82,14 @@ public class RobotContainer {
     m_armSubsystem.setDefaultCommand(
         new RunCommand(
             () -> m_armSubsystem.move(
-              m_armController.getRawAxis(1) * -1,
+              m_armController.getRawAxis(1),
               m_armController.getRawAxis(3)),
             m_armSubsystem));
 
     m_clawSubsystem.setDefaultCommand(
     new RunCommand(
-        () -> m_clawSubsystem.moveClaw(),
+        () -> m_clawSubsystem.moveClaw(
+          m_armController.getRawButton(6)),
         m_clawSubsystem));
 }
 
@@ -102,6 +106,17 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // 4765: To be used to assign buttons for things like using the arm and the claw
 
+    // m_armController.a().onTrue(new ClawGrab());
+
+    // Trigger claw_trigger = new JoystickButton(m_armController, 1);
+    // claw_trigger.onTrue(m_clawSubsystem.grab());
+  
+
+    // new JoystickButton(m_armController, 1)
+    // .onFalse(new OpenClaw());
+
+    
+
   }
 
   // 4765: Commented out the autonomous code that because it uses odometry which
@@ -112,7 +127,11 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  // public Command getAutonomousCommand() {
+  public Command getAutonomousCommand() {
+
+    return new AutonDropBackUp(m_robotDrive, m_armSubsystem);
+
+  }
   // // Create config for trajectory
   // TrajectoryConfig config =
   // new TrajectoryConfig(

@@ -13,15 +13,19 @@ import frc.robot.Constants.ArmConstants;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
+
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 
 public class PitchSubsystem extends SubsystemBase {
     private final TalonSRX m_pitchMotor = new TalonSRX(5);
     private final DutyCycleEncoder m_pitchEncoder = new DutyCycleEncoder (5); // pitch
-    private final double upperLimit = ArmConstants.kPitchLevel + 100; // placeholder values
-    private final double lowerLimit = ArmConstants.kPitchLevel - 100;
+    private final double m_pitchOffset = m_pitchEncoder.get();
+    private final double upperLimit = m_pitchOffset - 0.01;
+    private final double lowerLimit = upperLimit-1.4;
     private final double upMotorCoefficient = 0.2;
     private final double downMotorCoefficient = 0.4;
+
     
 //0.93
 //0.5
@@ -29,6 +33,10 @@ public class PitchSubsystem extends SubsystemBase {
          /** Creates a new PitchSubsystem. */
          public PitchSubsystem() {
             SmartDashboard.putNumber("Meas Pitch", m_pitchEncoder.get());
+            
+
+
+
          }
          
     public void move(double axis){

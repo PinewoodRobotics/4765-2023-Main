@@ -6,6 +6,8 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.commands.ClawGrab;
+
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -16,10 +18,10 @@ public class ClawSubsystem extends SubsystemBase {
     private final TalonSRX m_clawMotor = new TalonSRX(6);
 
     public ClawSubsystem() {
-        m_clawMotor.configContinuousCurrentLimit(3);
-        m_clawMotor.configPeakCurrentLimit(3);
+        m_clawMotor.configContinuousCurrentLimit(5);
+        m_clawMotor.configPeakCurrentLimit(5);
         m_clawMotor.enableCurrentLimit(true);
-        SmartDashboard.putBoolean("claw grabbing", false);
+        //SmartDashboard.putBoolean("claw grabbing", false);
     }
 
     public void moveClaw(){
@@ -30,8 +32,17 @@ public class ClawSubsystem extends SubsystemBase {
         }
     }
 
+    public void moveClaw(boolean aPressed) {
+        if (aPressed)
+        { grab(); } 
+        else {
+            release();
+        }
+    }
+
+
     public void grab(){
-        m_clawMotor.set(ControlMode.PercentOutput, -0.5);
+        m_clawMotor.set(ControlMode.PercentOutput, -0.9);
     }
 
     public void release(){
