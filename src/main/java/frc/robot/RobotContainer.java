@@ -76,7 +76,9 @@ public class RobotContainer {
                 m_driverController.getRawAxis(1) * -1,
                 m_driverController.getRawAxis(0) * -1,
                 m_driverController.getRawAxis(2) * -1,
-                false),
+                false,
+                m_driverController.getRawButton(6),
+                m_driverController.getRawButton(3)),
             m_robotDrive));
 
     m_armSubsystem.setDefaultCommand(
@@ -129,7 +131,13 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
 
-    return new AutonDropBackUp(m_robotDrive, m_armSubsystem);
+    //return new AutoBumpScore(m_robotDrive);
+
+    //return new AutonDropBackUp(m_robotDrive, m_armSubsystem);
+
+    return new AutoBumpLeaveBalance(m_robotDrive);
+
+    //return new AutoBumpLeaveAutoBalance(m_robotDrive);
 
   }
   // // Create config for trajectory

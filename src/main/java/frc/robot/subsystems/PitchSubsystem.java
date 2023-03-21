@@ -23,8 +23,8 @@ public class PitchSubsystem extends SubsystemBase {
     private final double m_pitchOffset = m_pitchEncoder.get();
     private final double upperLimit = m_pitchOffset - 0.01;
     private final double lowerLimit = upperLimit-1.4;
-    private final double upMotorCoefficient = 0.2;
-    private final double downMotorCoefficient = 0.4;
+    private final double upMotorCoefficient = 0.15;
+    private final double downMotorCoefficient = 0.35;
 
     
 //0.93

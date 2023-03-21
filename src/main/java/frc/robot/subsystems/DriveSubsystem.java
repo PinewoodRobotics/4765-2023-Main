@@ -187,7 +187,61 @@ public class DriveSubsystem extends SubsystemBase {
     m_rearLeft.setDesiredState(swerveModuleStates[2]);
     m_rearRight.setDesiredState(swerveModuleStates[3]);
   }
+  public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative, boolean throttled, boolean locked) {
 
+    SmartDashboard.putNumber(   "IMU_Yaw",              ahrs.getYaw());
+    SmartDashboard.putNumber(   "IMU_Pitch",            ahrs.getPitch());
+    SmartDashboard.putNumber(   "IMU_Roll",             ahrs.getRoll());
+    
+    SmartDashboard.putNumber(   "IMU_CompassHeading",   ahrs.getCompassHeading());
+
+
+    // 4765: Puts joystick inout data on main shuffleboard for debugging
+    SmartDashboard.putNumber("xSpeed", xSpeed);
+    SmartDashboard.putNumber("ySpeed", ySpeed);
+    SmartDashboard.putNumber("rot", rot);
+
+    // 4765: Added a very (too?) basic deadband strategy
+    if (Math.abs(xSpeed) < xSpeedDeadband) {
+      xSpeed = 0;
+    }
+    if (Math.abs(ySpeed) < ySpeedDeadband) {
+      ySpeed = 0;
+    }
+    if (Math.abs(rot) < rotDeadband) {
+      rot = 0;
+    }
+
+
+if (throttled) {
+  xSpeed = xSpeed * 0.25;
+  ySpeed = ySpeed * 0.25;
+  rot = rot * 0.25;
+}
+
+if (locked) {
+
+m_frontLeft.setDesiredState(new SwerveModuleState(0.0, new Rotation2d(Math.PI/4)));
+m_frontRight.setDesiredState(new SwerveModuleState(0.0, new Rotation2d(Math.PI/-4)));
+m_rearLeft.setDesiredState(new SwerveModuleState(0.0, new Rotation2d(Math.PI/-4)));
+m_rearRight.setDesiredState(new SwerveModuleState(0.0, new Rotation2d(Math.PI/4)));
+
+} else {
+
+    var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
+        fieldRelative
+            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, (Rotation2d.fromDegrees(ahrs.getYaw())))
+            : new ChassisSpeeds(xSpeed, ySpeed, rot));
+
+    SwerveDriveKinematics.desaturateWheelSpeeds(
+        swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
+
+    m_frontLeft.setDesiredState(swerveModuleStates[0]);
+    m_frontRight.setDesiredState(swerveModuleStates[1]);
+    m_rearLeft.setDesiredState(swerveModuleStates[2]);
+    m_rearRight.setDesiredState(swerveModuleStates[3]);
+}
+}
   /**
    * Sets the swerve ModuleStates.
    *

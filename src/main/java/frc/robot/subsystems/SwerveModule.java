@@ -48,6 +48,8 @@ public class SwerveModule {
   private final CANCoder m_canCoderEncoder;
 
   private double m_loopCount = 0;
+
+  private double m_continuousFactor = 0;
   
   public double
   kDriveP,
@@ -55,7 +57,7 @@ public class SwerveModule {
   kDriveD,
   kDriveIZ,
   kDriveFF,
-  kDriveMaxOutput,
+  kDriveMaxOutput, 
   kDriveMinOutput,
   kDriveMaxRPM;
 
@@ -363,6 +365,21 @@ public class SwerveModule {
   // Rotation2d(m_turningEncoder.getDistance()));
   // }
 
+
+public double makeContinous(double originalRadians, double newRadians) {
+
+double newContinuousFactor = m_continuousFactor;
+
+// if (Math.abs(originalRadians - newRadians) < 1.5708) {
+//       if (originalRadians - newRadians) >
+// }
+
+return newContinuousFactor;
+}
+
+
+
+
   // 4765: updated to the correct calls for our hardware
   /**
    * Sets the desired state for the module.
@@ -373,7 +390,9 @@ public class SwerveModule {
 
     // CAREFUL! POSTION OR ABSOLUTE
 
-sb_turnSparkNew.setValue(m_sparkMaxTurnEncoder.getPosition());
+double sparkMaxEncoderPosition = m_sparkMaxTurnEncoder.getPosition();
+
+sb_turnSparkNew.setValue(sparkMaxEncoderPosition);
 
 sb_turnCanCLive.setValue(m_canCoderEncoder.getAbsolutePosition());
 sb_turnCanCPosLive.setValue(m_canCoderEncoder.getPosition());
@@ -480,12 +499,12 @@ double turnCanCPosLive = sb_turnCanCPosLive.getDouble(0);
 
     
 
-    sb_turnSparkLive.setValue(((Math.PI * 2)/(150/7)) * m_sparkMaxTurnEncoder.getPosition());
+    sb_turnSparkLive.setValue(((Math.PI * 2)/(150/7)) * sparkMaxEncoderPosition);
 
     SwerveModuleState state = SwerveModuleState.optimize(
       desiredState, 
 
-      new Rotation2d(m_sparkMaxTurnEncoder.getPosition()*((Math.PI * 2)/(150/7))));
+      new Rotation2d(sparkMaxEncoderPosition*((Math.PI * 2)/(150/7))));
 
     sb_driveDesiredProc.setValue(state.speedMetersPerSecond);
     sb_turnDesiredProc.setValue(state.angle.getRadians());
@@ -508,13 +527,21 @@ double turnCanCPosLive = sb_turnCanCPosLive.getDouble(0);
 
     // Calculate the turning motor output from the turning PID controller.
     //final double turnOutput = m_turningPIDController.calculate(turningEncoderPosition, state.angle.getRadians());
-    
+     
 
     //m_sparkMaxDrivePIDController.setReference(1000, CANSparkMax.ControlType.kVelocity);
 
-    m_sparkMaxDrivePIDController.setReference(state.speedMetersPerSecond * kDriveMaxRPM*2, CANSparkMax.ControlType.kVelocity);
+    m_sparkMaxDrivePIDController.setReference(state.speedMetersPerSecond * kDriveMaxRPM * 3, CANSparkMax.ControlType.kVelocity);
 
     //m_driveMotor.set(state.speedMetersPerSecond);
+
+
+
+// m_continuousFactor = makeContinous(
+//   sparkMaxEncoderPosition*((Math.PI * 2)/(150/7)), 
+//   state.angle.getRadians());
+
+
 
     double rotations = (state.angle.getRadians()/((Math.PI * 2)/(150/7)));
 
@@ -534,7 +561,7 @@ double turnCanCPosLive = sb_turnCanCPosLive.getDouble(0);
     // 4765: Temporary NON-PID output value calculation to bring swerve up without
     // tuning PID
     // double tempSetTurn = (turningEncoderPosition - state.angle.getRadians());
-    // // 4765: updates the values in Shuffleboard on this module's tab
+    // // 4765: updates the values in Shuffleboard on this module's tab 
     // m_tempSetTurn.setValue(tempSetTurn);
 
     // 4765: this block uses the temp NON-PID values

@@ -18,8 +18,8 @@ public class ClawSubsystem extends SubsystemBase {
     private final TalonSRX m_clawMotor = new TalonSRX(6);
 
     public ClawSubsystem() {
-        m_clawMotor.configContinuousCurrentLimit(5);
-        m_clawMotor.configPeakCurrentLimit(5);
+        m_clawMotor.configContinuousCurrentLimit(8);
+        m_clawMotor.configPeakCurrentLimit(8);
         m_clawMotor.enableCurrentLimit(true);
         //SmartDashboard.putBoolean("claw grabbing", false);
     }
