@@ -531,7 +531,9 @@ double turnCanCPosLive = sb_turnCanCPosLive.getDouble(0);
 
     //m_sparkMaxDrivePIDController.setReference(1000, CANSparkMax.ControlType.kVelocity);
 
-    m_sparkMaxDrivePIDController.setReference(state.speedMetersPerSecond * kDriveMaxRPM * 3, CANSparkMax.ControlType.kVelocity);
+    // is this where we do speed? 
+
+    m_sparkMaxDrivePIDController.setReference(state.speedMetersPerSecond * kDriveMaxRPM * 0.1, CANSparkMax.ControlType.kVelocity);
 
     //m_driveMotor.set(state.speedMetersPerSecond);
 
