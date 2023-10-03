@@ -167,7 +167,9 @@ public class SwerveModule {
       String abbreviation) {
     m_driveMotor = new CANSparkMax(driveMotorChannel, MotorType.kBrushless);
     m_sparkMaxDriveEncoder = m_driveMotor.getEncoder();
+
     m_sparkMaxDrivePIDController = m_driveMotor.getPIDController();
+
 
   //m_sparkMaxDriveEncoder.setVelocityConversionFactor(0.000148);
 

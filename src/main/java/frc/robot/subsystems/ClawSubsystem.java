@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ClawSubsystem extends SubsystemBase {
-    private final TalonSRX m_clawMotor = new TalonSRX(6);
+    private final TalonSRX m_clawMotor = new TalonSRX(2);
 
     public ClawSubsystem() {
         m_clawMotor.configContinuousCurrentLimit(8);

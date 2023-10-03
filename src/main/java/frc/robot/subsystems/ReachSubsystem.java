@@ -15,8 +15,8 @@ import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ReachSubsystem extends SubsystemBase {
-    private final TalonSRX m_reachMotor = new TalonSRX(9);
-    private final DutyCycleEncoder m_reachEncoder = new DutyCycleEncoder (0); // pitch
+    private final TalonSRX m_reachMotor = new TalonSRX(1);
+    private final DutyCycleEncoder m_reachEncoder = new DutyCycleEncoder (1); // pitch
     private final double m_reachOffset = m_reachEncoder.get();
     private final double lowerLimit = m_reachOffset + 0.1;
     private final double upperLimit = lowerLimit + 10;

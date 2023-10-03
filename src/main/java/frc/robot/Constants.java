@@ -24,8 +24,8 @@ public final class Constants {
   public static final class DriveConstants {
     // 4765: Used our addresses
     public static final int kFrontLeftDriveMotorPort = 10;
-    public static final int kRearLeftDriveMotorPort = 21;
-    public static final int kFrontRightDriveMotorPort = 12;
+    public static final int kRearLeftDriveMotorPort = 12;
+    public static final int kFrontRightDriveMotorPort = 21;
     public static final int kRearRightDriveMotorPort = 13;
 
     public static final int kFrontLeftTurningMotorPort = 22;
@@ -33,10 +33,15 @@ public final class Constants {
     public static final int kFrontRightTurningMotorPort = 20;
     public static final int kRearRightTurningMotorPort = 23;
 
-    public static final int kFrontLeftTurningEncoderPort = 1;
-    public static final int kRearLeftTurningEncoderPort = 4;
-    public static final int kFrontRightTurningEncoderPort = 2;
-    public static final int kRearRightTurningEncoderPort = 3;
+    public static final int kFrontLeftTurningEncoderPort = 3;
+    public static final int kRearLeftTurningEncoderPort = 2;
+    public static final int kFrontRightTurningEncoderPort = 4;
+    public static final int kRearRightTurningEncoderPort = 1;
+
+    // public static final int kFrontLeftTurningEncoderPort = 1;
+    // public static final int kRearLeftTurningEncoderPort = 4;
+    // public static final int kFrontRightTurningEncoderPort = 2;
+    // public static final int kRearRightTurningEncoderPort = 3;
 
     // 4765: determined by trial and error - probably right?
 
