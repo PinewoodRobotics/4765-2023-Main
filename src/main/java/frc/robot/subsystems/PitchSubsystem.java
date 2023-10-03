@@ -12,14 +12,15 @@ import frc.robot.Constants.ArmConstants;
 
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+//import edu.wpi.first.wpilibj2.Servo
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 
 public class PitchSubsystem extends SubsystemBase {
-    private final TalonSRX m_pitchMotor = new TalonSRX(5);
-    private final DutyCycleEncoder m_pitchEncoder = new DutyCycleEncoder (5); // pitch
+    private final TalonSRX m_pitchMotor = new TalonSRX(0);
+    private final DutyCycleEncoder m_pitchEncoder = new DutyCycleEncoder (0); // pitch
     private final double m_pitchOffset = m_pitchEncoder.get();
     private final double upperLimit = m_pitchOffset - 0.01;
     private final double lowerLimit = upperLimit-1.4;
